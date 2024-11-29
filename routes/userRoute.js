@@ -21,7 +21,9 @@ userRoute.get('/:id', (req, res) => {
 
 // create user
 userRoute.post('/', (req, res) => {
-    const {id, name, age} = req.body;
+    const id = parseInt(req.body.id);
+    const name = req.body.name;
+    const age = parseInt(req.body.age);
 
     // check if user already exists
     const userExist = userList.find((user) => user.id === id);
@@ -39,5 +41,35 @@ userRoute.post('/', (req, res) => {
     res.status(201).json({message: "Create successfully", user: newUser});
 })
 
+// update user
+userRoute.put('/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const name = req.body.name;
+    const age = parseInt(req.body.age);
 
+    let user = userList.find((user) => user.id === id);
+
+    if (!user) {
+        return res.status(404).json({message: "user not found"})
+    }
+
+    const newUser = {...user, name, age};
+    const userIndex = userList.findIndex((user) => user.id === id);
+    userList[userIndex] = newUser;
+    res.status(200).json(userList);
+})
+
+// delete user 
+userRoute.delete('/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+
+    const user = userList.find((user) => user.id === id);
+
+    if (!user) {
+        return res.status(404).json({ message: "user not found"})
+    }
+
+    res.status(200).json({message: "user has been deleted"})
+
+})
 export default userRoute;
