@@ -1,4 +1,4 @@
-const users = [
+let userList = [
   {
     id: 1,
     name: "Tuan",
@@ -21,4 +21,4 @@ const users = [
   },
 ];
 
-export default users;
+export default userList;
